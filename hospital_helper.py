@@ -96,56 +96,7 @@ def quick_cleanup1(df):
   return df
 
 def quick_cleanup2(df):
-  cols_listoflists = [
-      [# Hospital Identification and Demographics
-      'hospital',
-      'hospital_abbreviation',
-      'city',
-      'state',
-      'region',
-      'eastern_indicator',
-      'hospital_size',
-      ],
-
-      [# Facility and Operational Metrics
-      'square_footage',
-      'cleanable_square_footage',
-      'payroll_standard_hours_total',
-      'purchased_labor_hours_total'
-      ],
-
-      [# Regulated Medical Waste (aggregate)
-      'rmw',
-      'rmw_autoclave',
-      'rmw_incineration',
-      'rmw/apd',
-      'reusable_sharps',
-      ],
-
-      ['mt_eco2_(autoclave_-_steam_sterilization)',
-      'mt_eco2_(incineration)',
-      'mt_eco2_(autoclave_-_etd)',
-      'mt_eco2_(rmw_+_haz_pharm)',
-      'mt_eco2_(solid_waste)',
-      'mt_eco2_(solid_waste_+_rmw_+_haz_pharm)'
-      ],
-
-      [# Other
-      'hazardous_pharmaceuticals',
-      'hazardous:_rcra_pharm',
-      'hazardous',
-      '5%path/chemo',
-      'corrected_path/chemo'
-      ],
-
-      [# Recycling
-      'rcy',
-      'mixed_recycling',
-      'recycle_-rd_&_ud',
-      'recycle_-_rd_+_ud_+_reprocessing',
-      ],
-  ]
-
+  cols_listoflists = [['hospital', 'hospital_abbreviation', 'city', 'state', 'region', 'eastern_indicator', 'hospital_size'], ['square_footage', 'cleanable_square_footage', 'payroll_standard_hours_total', 'purchased_labor_hours_total'], ['rmw', 'rmw_autoclave', 'rmw_incineration', 'rmw/apd', 'reusable_sharps'], ['mt_eco2_(autoclave_-_steam_sterilization)', 'mt_eco2_(incineration)', 'mt_eco2_(autoclave_-_etd)', 'mt_eco2_(rmw_+_haz_pharm)', 'mt_eco2_(solid_waste)', 'mt_eco2_(solid_waste_+_rmw_+_haz_pharm)'], ['hazardous_pharmaceuticals', 'hazardous:_rcra_pharm', 'hazardous', '5%path/chemo', 'corrected_path/chemo'], ['rcy', 'mixed_recycling', 'recycle_-rd_&_ud', 'recycle_-_rd_+_ud_+_reprocessing']]
   
   # unpack cols into a flat list
   flat_list = [item for sublist in cols_listoflists for item in sublist]
