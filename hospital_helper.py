@@ -79,6 +79,82 @@ def process_missing(df, verbose=True):
 
   return df
 
+
+def quick_cleanup1(df):
+  df['date'] = pd.to_datetime(df['date'])
+  df['year'] = df['date'].dt.year
+  df['month'] = df['date'].dt.month
+  df = df.drop(columns = 'unnamed:_0')
+
+  focal_variables = ['rmw/apd', 'rmw', 'apd']
+
+  # drop all columns that mention specific vendors, such as stryker, medline, cardinal
+  df = df.loc[:, ~df.columns.str.contains('stryker|medline|cardinal')]
+
+  # drop all columns that appear to be constants
+  df = df.loc[:, ~df.columns.str.contains('rmw/apd_national_median_\\(all\\)|day|available_beds_total|batteries')]
+  return df
+
+def quick_cleanup2(df):
+  cols_listoflists = [
+      [# Hospital Identification and Demographics
+      'hospital',
+      'hospital_abbreviation',
+      'city',
+      'state',
+      'region',
+      'eastern_indicator',
+      'hospital_size',
+      ],
+
+      [# Facility and Operational Metrics
+      'square_footage',
+      'cleanable_square_footage',
+      'payroll_standard_hours_total',
+      'purchased_labor_hours_total'
+      ],
+
+      [# Regulated Medical Waste (aggregate)
+      'rmw',
+      'rmw_autoclave',
+      'rmw_incineration',
+      'rmw/apd',
+      'reusable_sharps',
+      ],
+
+      ['mt_eco2_(autoclave_-_steam_sterilization)',
+      'mt_eco2_(incineration)',
+      'mt_eco2_(autoclave_-_etd)',
+      'mt_eco2_(rmw_+_haz_pharm)',
+      'mt_eco2_(solid_waste)',
+      'mt_eco2_(solid_waste_+_rmw_+_haz_pharm)'
+      ],
+
+      [# Other
+      'hazardous_pharmaceuticals',
+      'hazardous:_rcra_pharm',
+      'hazardous',
+      '5%path/chemo',
+      'corrected_path/chemo'
+      ],
+
+      [# Recycling
+      'rcy',
+      'mixed_recycling',
+      'recycle_-rd_&_ud',
+      'recycle_-_rd_+_ud_+_reprocessing',
+      ],
+  ]
+
+  
+  # unpack cols into a flat list
+  flat_list = [item for sublist in cols_listoflists for item in sublist]
+
+  # massively reduce columns, add columns back by adding name to lists above
+  df = df.loc[:, flat_list]
+  return df
+
+
 if __name__ == '__main__':
     # Code to execute when the file is run directly
     pass
